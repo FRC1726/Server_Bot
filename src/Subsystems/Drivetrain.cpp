@@ -1,21 +1,24 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-#include "Drivetrain.h"
+//#include <Commands/DriveWithJoysticks.h>
+#include "DriveTrain.h"
 #include "../RobotMap.h"
+#include <SerialPort.h>
+#include <SmartDashboard/SmartDashboard.h>
 
-Drivetrain::Drivetrain() : Subsystem("ExampleSubsystem") {
+DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
+	leftController(DRIVE_LEFT),
+	rightController(DRIVE_RIGHT),
+	drive(leftController, rightController),
+	leftEncoder(LA_CHANNEL, LB_CHANNEL),
+	rightEncoder(RA_CHANNEL, RB_CHANNEL),
+	gyro(SerialPort::Port::kUSB1),
+	pidWrite(),
+	pidController(0, 0, 0, &gyro, &pidWrite)
+{
+	leftEncoder.SetReverseDirection(true);
+	leftEncoder.SetDistancePerPulse(3.1415/60);
+	rightEncoder.SetDistancePerPulse(3.1415/60);
 
+	pidController.SetInputRange(-180, 180);
+	pidController.SetOutputRange(0,1);
+	pidController.SetContinuous(true);
 }
-
-void Drivetrain::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
-}
-
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
