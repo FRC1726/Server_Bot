@@ -1,14 +1,50 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 #include "OI.h"
+#include "RobotMap.h"
+#include <SmartDashboard/SmartDashboard.h>
+#include <iostream>
 
-#include <WPILib.h>
-
-OI::OI() {
+OI::OI() :
+	driver(JOY_DRIVER),
+		driver_A(&driver, BUTTON_A),
+		driver_B(&driver, BUTTON_B),
+		driver_X(&driver, BUTTON_X),
+		driver_Y(&driver, BUTTON_Y),
+		driver_LB(&driver, LEFT_BUMP),
+		driver_RB(&driver, RIGHT_BUMP),
+		driver_SELECT(&driver, BUTTON_SELECT),
+		driver_START(&driver, BUTTON_START)
+	{
 	// Process operator interface input here.
+}
+
+double OI::getAxis(int axis){
+	return driver.GetRawAxis(axis);
+}
+
+int OI::getPOV(){
+	return driver.GetPOV();
+}
+
+bool OI::getButtonState(int Select){
+	switch(Select){
+	case BUTTON_A:
+		return driver_A.Get();
+	case BUTTON_B:
+		return driver_B.Get();
+	case BUTTON_X:
+		return driver_X.Get();
+	case BUTTON_Y:
+		return driver_Y.Get();
+	case LEFT_BUMP:
+		return driver_LB.Get();
+	case RIGHT_BUMP:
+		return driver_RB.Get();
+	case BUTTON_SELECT:
+		return driver_SELECT.Get();
+	case BUTTON_START:
+		return driver_START.Get();
+	default:
+		std::cout << "Something Went Wrong..." << std::endl;
+		return false;
+	}
 }
