@@ -1,6 +1,11 @@
 #ifndef ROBOTMAP_H
 #define ROBOTMAP_H
 
+//DriveTrain PWM Pins
+constexpr int DRIVE_LEFT = 0;
+constexpr int DRIVE_RIGHT = 1;
+constexpr int WINCH_REEL = 2;
+
 //Joystick Ports
 constexpr int JOY_DRIVER = 0;
 
@@ -27,6 +32,9 @@ constexpr int LA_CHANNEL = 0;
 constexpr int LB_CHANNEL = 1;
 constexpr int RA_CHANNEL = 2;
 constexpr int RB_CHANNEL = 3;
+
+//Robot Length
+constexpr double ROBOT_LENGTH = 23.82;
 
 
 #endif

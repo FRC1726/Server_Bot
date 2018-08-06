@@ -7,6 +7,8 @@
 #include <AHRS.h>
 #include <VictorSP.h>
 #include <PIDController.h>
+#include "NERDS/PidOut.h"
+
 
 class DriveTrain : public Subsystem {
 public:
@@ -24,10 +26,15 @@ public:
 	double getVelocity(encoderSide);
 
 	//Gyro
-
+	double getAngle();
 
 	//PID
-
+	double getPIDOutput();
+	void SetPIDTarget(double);
+	void setPID(double, double, double, double);
+	void setEnabled(bool);
+	void setPIDRange(double,double);
+	bool onTarget();
 
 
 private:
@@ -44,4 +51,4 @@ private:
 	PIDController pidController;
 };
 
-#endif
+#endif  // DriveTrain_H
