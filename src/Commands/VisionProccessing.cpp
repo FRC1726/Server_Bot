@@ -21,8 +21,8 @@ void VisionProccessing::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void VisionProccessing::Execute() {
-	bool detected = SmartDashboard::getBoolean("Blocks Detected", false);
-	double offset = SmartDashboard::getNumber("X Position", 0);
+	bool detected = SmartDashboard::GetBoolean("Blocks Detected", false);
+	double offset = SmartDashboard::GetNumber("X Position", 0);
 
 	if(detected){
 		if(offset < -5){
@@ -47,11 +47,11 @@ bool VisionProccessing::IsFinished() {
 
 // Called once after isFinished returns true
 void VisionProccessing::End() {
-
+	drivetrain.Stop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void VisionProccessing::Interrupted() {
-
+	drivetrain.Stop();
 }

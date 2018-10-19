@@ -3,6 +3,8 @@
 #include <SmartDashboard/SmartDashboard.h>
 #include <iostream>
 
+#include "Commands/VisionProccessing.h"
+
 OI::OI() :
 	driver(JOY_DRIVER),
 		driver_A(&driver, BUTTON_A),
@@ -15,6 +17,7 @@ OI::OI() :
 		driver_START(&driver, BUTTON_START)
 	{
 	// Process operator interface input here.
+	driver_A.WhileHeld(new VisionProccessing());
 }
 
 double OI::getAxis(int axis){
