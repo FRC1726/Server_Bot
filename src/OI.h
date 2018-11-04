@@ -1,13 +1,26 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+#ifndef OI_H
+#define OI_H
 
-#pragma once
+#include <Joystick.h>
+#include <Buttons/JoystickButton.h>
 
 class OI {
 public:
 	OI();
+	double getAxis(int);
+	int getPOV();
+	bool getButtonState(int);
+private:
+	Joystick driver;
+	JoystickButton driver_A;
+	JoystickButton driver_B;
+	JoystickButton driver_X;
+	JoystickButton driver_Y;
+	JoystickButton driver_LB;
+	JoystickButton driver_RB;
+	JoystickButton driver_SELECT;
+	JoystickButton driver_START;
+
 };
+
+#endif

@@ -5,29 +5,53 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
+#include "VisionProccessing.h"
+#include <SmartDashboard/SmartDashboard.h>
 
-#include "../Robot.h"
-
-MyAutoCommand::MyAutoCommand() {
+VisionProccessing::VisionProccessing() {
 	// Use Requires() here to declare subsystem dependencies
-	Requires(&Robot::m_subsystem);
+	// eg. Requires(Robot::chassis.get());
+	Requires(&drivetrain);
 }
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {}
+void VisionProccessing::Initialize() {
+
+}
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+void VisionProccessing::Execute() {
+	bool detected = SmartDashboard::GetBoolean("Blocks Detected", false);
+	double offset = SmartDashboard::GetNumber("X Position", 0);
+
+	if(detected){
+		if(offset < -5){
+			drivetrain.arcadeDrive(0, offset / 159.0);
+		}
+		else if(offset > 5){
+			drivetrain.arcadeDrive(0, offset / 160.0);
+		}
+		else{
+			drivetrain.Stop();
+		}
+	}
+	else{
+		drivetrain.Stop();
+	}
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
+bool VisionProccessing::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void VisionProccessing::End() {
+	drivetrain.Stop();
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void VisionProccessing::Interrupted() {
+	drivetrain.Stop();
+}

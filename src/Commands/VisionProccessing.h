@@ -7,14 +7,15 @@
 
 #pragma once
 
-#include <Commands/Command.h>
+#include "CommandBase.h"
 
-class MyAutoCommand : public frc::Command {
+class VisionProccessing : public CommandBase {
 public:
-	MyAutoCommand();
+	VisionProccessing();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
 };
+
