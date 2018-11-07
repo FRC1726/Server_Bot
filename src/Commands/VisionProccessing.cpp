@@ -7,6 +7,7 @@
 
 #include "VisionProccessing.h"
 #include <SmartDashboard/SmartDashboard.h>
+#include <Preferences.h>
 
 VisionProccessing::VisionProccessing() {
 	// Use Requires() here to declare subsystem dependencies
@@ -22,22 +23,37 @@ void VisionProccessing::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void VisionProccessing::Execute() {
 	bool detected = SmartDashboard::GetBoolean("Blocks Detected", false);
-	double offset = SmartDashboard::GetNumber("X Position", 0);
+	double offset = SmartDashboard::GetNumber("X position", 0);
+	double distance = SmartDashboard::GetNumber("Distance", 0);
+
+	double turnSpeed = 0;
+	double driveSpeed = 0;
 
 	if(detected){
 		if(offset < -5){
-			drivetrain.arcadeDrive(0, offset / 159.0);
+			turnSpeed = driveProfile(offset / 159.0);
 		}
 		else if(offset > 5){
-			drivetrain.arcadeDrive(0, offset / 160.0);
+			turnSpeed = driveProfile(offset / 160.0);
 		}
 		else{
-			drivetrain.Stop();
+			turnSpeed = 0;
 		}
+
+		if(distance <= 150){
+			driveSpeed = -.035;
+		}else if(distance >= 220){
+			driveSpeed = .035;
+		}else{
+			driveSpeed = 0;
+		}
+
+		drivetrain.arcadeDrive(driveSpeed, turnSpeed);
 	}
 	else{
 		drivetrain.Stop();
 	}
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -55,3 +71,45 @@ void VisionProccessing::End() {
 void VisionProccessing::Interrupted() {
 	drivetrain.Stop();
 }
+
+double VisionProccessing::driveProfile(double input) {
+	if(fabs(input) <= deadzone){
+			return 0;
+		}
+
+	double out = (maxSpeed - minSpeed) * fabs(input) + minSpeed;
+
+	if(input > 0){
+		return out;
+	}
+	if(input < 0){
+		return -out;
+	} else {
+		return 0;
+	}
+}
+
+void VisionProccessing::getPreferences() {
+	//Set Drive Profile parameters
+	maxSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Max Speed", 1);
+	minSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Min Speed", 0.35);
+	deadzone = Preferences::GetInstance()->GetDouble("Joysticks/Deadzone", .025);
+	acceleration = Preferences::GetInstance()->GetDouble("Joysticks/acceleration", .025);
+}
+
+void VisionProccessing::checkKeys() {
+	//Drive Profile Values
+	if (!Preferences::GetInstance()->ContainsKey("VisionProccessing/Max Speed")) {
+		Preferences::GetInstance()->PutDouble("VisionProccessing/Max Speed", 1.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("VisionProccessing/Min Speed")) {
+		Preferences::GetInstance()->PutDouble("VisionProccessing/Min Speed", 0.35);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("VisionProccessing/Deadzone")) {
+		Preferences::GetInstance()->PutDouble("VisionProccessing/Deadzone", .025);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("VisionProccessing/acceleration")) {
+		Preferences::GetInstance()->PutDouble("VisionProccessing/acceleration", 1.0);
+	}
+}
+

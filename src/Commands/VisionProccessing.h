@@ -17,5 +17,14 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+private:
+	double minSpeed;
+	double maxSpeed;
+	double deadzone;
+	double acceleration;
+
+	double driveProfile(double);
+	void getPreferences();
+	void checkKeys();
 };
 
