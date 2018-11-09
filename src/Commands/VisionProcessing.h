@@ -9,21 +9,27 @@
 
 #include "CommandBase.h"
 
-class VisionProccessing : public CommandBase {
+class VisionProcessing : public CommandBase {
 public:
-	VisionProccessing();
+	VisionProcessing();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
 private:
-	double minSpeed;
-	double maxSpeed;
+
 	double deadzone;
 	double acceleration;
+	double minDistance;
+	double maxDistance;
+	double minDistanceSpeed;
+	double maxDistanceSpeed;
+	double adjustmentSpeed;
+	double minTurnSpeed;
+	double maxTurnSpeed;
 
-	double driveProfile(double);
+	double driveProfile(double, double, double);
 	void getPreferences();
 	void checkKeys();
 };
