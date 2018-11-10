@@ -7,6 +7,7 @@
 
 #include "OI.h"
 #include "Subsystems/DriveTrain.h"
+#include "Subsystems/Catapult.h"
 #include <PowerDistributionPanel.h>
 
 /**
@@ -24,6 +25,7 @@ public:
 	static OI oi;
 	static DriveTrain drivetrain;
 	static std::unique_ptr<PowerDistributionPanel> pdp;
+	static Catapult catapult;
 };
 
 #endif  // COMMAND_BASE_H

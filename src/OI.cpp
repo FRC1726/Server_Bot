@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Commands/VisionProccessing.h"
+#include "Commands/LaunchCatapult.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
@@ -18,6 +19,7 @@ OI::OI() :
 	{
 	// Process operator interface input here.
 	driver_A.WhileHeld(new VisionProccessing());
+	driver_RB.WhenPressed(new LaunchCatapult());
 }
 
 double OI::getAxis(int axis){
