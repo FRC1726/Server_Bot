@@ -1,9 +1,10 @@
+#include <Commands/VisionProcessing.h>
 #include "OI.h"
 #include "RobotMap.h"
 #include <SmartDashboard/SmartDashboard.h>
 #include <iostream>
 
-#include "Commands/VisionProccessing.h"
+#include "Commands/VisionProcessing.h"
 #include "Commands/LaunchCatapult.h"
 
 OI::OI() :
@@ -18,8 +19,8 @@ OI::OI() :
 		driver_START(&driver, BUTTON_START)
 	{
 	// Process operator interface input here.
-	driver_A.WhileHeld(new VisionProccessing());
 	driver_RB.WhenPressed(new LaunchCatapult());
+	driver_A.WhileHeld(new VisionProcessing());
 }
 
 double OI::getAxis(int axis){
