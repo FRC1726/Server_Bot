@@ -33,6 +33,10 @@ constexpr int LB_CHANNEL = 1;
 constexpr int RA_CHANNEL = 2;
 constexpr int RB_CHANNEL = 3;
 
+//pneumatics
+constexpr int CATAPULT_ARM = 1;
+
+
 //Robot Length
 constexpr double ROBOT_LENGTH = 23.82;
 

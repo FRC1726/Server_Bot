@@ -4,6 +4,8 @@
 #include <SmartDashboard/SmartDashboard.h>
 #include <iostream>
 
+#include "Commands/VisionProcessing.h"
+#include "Commands/LaunchCatapult.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
@@ -17,6 +19,7 @@ OI::OI() :
 		driver_START(&driver, BUTTON_START)
 	{
 	// Process operator interface input here.
+	driver_RB.WhenPressed(new LaunchCatapult());
 	driver_A.WhileHeld(new VisionProcessing());
 }
 
